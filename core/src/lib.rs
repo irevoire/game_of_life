@@ -2,6 +2,7 @@ use std::io::{BufRead, BufReader};
 
 type Error = Box<dyn std::error::Error>;
 
+#[derive(Clone)]
 pub struct Grid {
     pub grid: Vec<Vec<bool>>,
 }
