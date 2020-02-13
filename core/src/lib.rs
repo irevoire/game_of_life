@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use std::io::{BufRead, BufReader};
 
 type Error = Box<dyn std::error::Error>;
@@ -86,7 +87,7 @@ impl Grid {
     pub fn step(&mut self) {
         let tmp = self.grid.clone();
 
-        self.grid.iter_mut().enumerate().for_each(|(y, line)| {
+        self.grid.par_iter_mut().enumerate().for_each(|(y, line)| {
             line.iter_mut()
                 .enumerate()
                 .for_each(|(x, cell)| *cell = Self::update(&tmp, x, y))
