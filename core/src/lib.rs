@@ -84,14 +84,27 @@ impl Grid {
         }
     }
 
+    /// return the total number of cells
+    fn nb_cells(&self) -> usize {
+        self.grid.first().map(|line| line.len()).unwrap_or(0) * self.grid.len()
+    }
+
     pub fn step(&mut self) {
         let tmp = self.grid.clone();
 
-        self.grid.par_iter_mut().enumerate().for_each(|(y, line)| {
-            line.iter_mut()
-                .enumerate()
-                .for_each(|(x, cell)| *cell = Self::update(&tmp, x, y))
-        });
+        if self.nb_cells() > 1000 {
+            self.grid.par_iter_mut().enumerate().for_each(|(y, line)| {
+                line.iter_mut()
+                    .enumerate()
+                    .for_each(|(x, cell)| *cell = Self::update(&tmp, x, y))
+            });
+        } else {
+            self.grid.iter_mut().enumerate().for_each(|(y, line)| {
+                line.iter_mut()
+                    .enumerate()
+                    .for_each(|(x, cell)| *cell = Self::update(&tmp, x, y))
+            });
+        };
     }
 }
 
