@@ -38,6 +38,14 @@ impl Grid {
         Ok(Self::from(grid))
     }
 
+    pub fn width(&self) -> usize {
+        self.grid[0].len()
+    }
+
+    pub fn height(&self) -> usize {
+        self.grid.len()
+    }
+
     /// convert a cell to an usize if the cell does not exist / is out of bounds
     /// return false
     fn get(grid: &Vec<Vec<bool>>, x: usize, y: usize) -> usize {
